@@ -331,6 +331,13 @@ PODS:
     - React-jsi (= 0.71.10-0rc0)
     - React-logger (= 0.71.10-0rc0)
     - React-perflogger (= 0.71.10-0rc0)
+  - RNGestureHandler (2.15.0):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+  - RNReanimated (3.6.2):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -369,6 +376,8 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -442,6 +451,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -480,6 +493,8 @@ SPEC CHECKSUMS:
   React-RCTText: bfa1b016e606d2efd57326f58c051dcff03f07ea
   React-runtimeexecutor: 045e01ac36efab42e8ecf1b4e6b93ac8a19f7628
   ReactCommon: 2d9affa4aee5629b3fec891886e2328403e26a5e
+  RNGestureHandler: 7909c50383a18f0cb10ce1db7262b9a6da504c03
+  RNReanimated: 738543ef6ec0024ea0bc9f4ab3ac99af6f068448
   Yoga: 857f8bc9ed5ee96249c6f788497ac2fefeccee97
 
 PODFILE CHECKSUM: 907f54b3c0f92af1b0463ad60ebf600ef983b971
