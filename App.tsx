@@ -11,6 +11,7 @@ import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import WithTiming from './src/components/WithTiming';
 import WithSpring from './src/components/WithSpring';
+import WithDecay from './src/components/WithDecay';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -27,6 +28,7 @@ function App(): JSX.Element {
       />
       <WithTiming />
       <WithSpring />
+      <WithDecay />
     </SafeAreaView>
   );
 }
