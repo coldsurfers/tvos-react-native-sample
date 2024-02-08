@@ -6,9 +6,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "tvos": "expo run:ios --scheme MyApp-tvOS --device \"Apple TV\"",
-    "lint": "eslint .",
     "start": "react-native start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "jest"
   },
   "dependencies": {
