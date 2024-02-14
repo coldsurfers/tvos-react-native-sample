@@ -5,93 +5,75 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
-  View,
 } from 'react-native';
+import Video, {DRMSettings, DRMType} from 'react-native-video';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const API_URL_TO_FETCH_DRM_SOURCE_URI = '';
+const PALLYCON_SITEID = '';
 
-function Section({children, title}: SectionProps): JSX.Element {
+function App() {
   const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [source, setSource] = useState<{uri: string} | null>(null);
+  const [drm, setDrm] = useState<DRMSettings | null>(null);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  useEffect(() => {
+    // fairplay + drm packaged (pallycon) example
+    async function fetchVideo() {
+      const response = await fetch(API_URL_TO_FETCH_DRM_SOURCE_URI, {
+        headers: {
+          Authorization: 'Bearer ',
+        },
+      });
+      const result = (await response.json()) as {
+        fairplay_url: string;
+        pallycon_token: string; // fake example
+      };
+      setSource({uri: result.fairplay_url});
+      setDrm({
+        type: DRMType.FAIRPLAY,
+        licenseServer:
+          'https://license-global.pallycon.com/ri/licenseManager.do',
+        certificateUrl: `https://license.pallycon.com/ri/fpsKeyManager.do?siteId=${PALLYCON_SITEID}`,
+        base64Certificate: true,
+        headers: {
+          'pallycon-customdata-v2': result.pallycon_token,
+          'Content-Type': 'application/octet-stream',
+        },
+      });
+    }
+    fetchVideo();
+  }, []);
+
+  if (drm === null || source === null) {
+    return null;
+  }
+
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={[backgroundStyle, {flex: 1}]}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+      <Video
+        source={source}
+        drm={drm}
+        style={[styles.fullScreen, StyleSheet.absoluteFillObject]}
+        controls
+        fullscreen
+        resizeMode={'contain'}
+      />
     </SafeAreaView>
   );
 }
@@ -112,6 +94,20 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  fullScreen: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+  activityIndicator: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
 
